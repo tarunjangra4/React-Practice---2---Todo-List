@@ -22,8 +22,10 @@ function ListItem(props){
 				className="saveTask" 
 				type="button"
 				onClick={()=>{
-					onEdit(tempTask);
-					setIsEdit(false);
+					if(tempTask!==""){
+						onEdit(tempTask);
+						setIsEdit(false);
+					}
 				}}
 			> Save </button>
 		</>
