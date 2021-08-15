@@ -12,14 +12,14 @@ function ListItem(props){
 	return isEdit ? (
 		<>
 			<textarea 
-			className="editTask" 
+			className="editTask saveTask" 
 			onChange={(event)=>{
 				setTempTask(event.target.value);
 			}}
 			value={tempTask}
 			></textarea>
 			<button 
-				className="saveTask" 
+				className="save" 
 				type="button"
 				onClick={()=>{
 					if(tempTask!==""){
