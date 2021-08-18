@@ -7,48 +7,46 @@ function ListItem(props){
 
 	const [tempTask, setTempTask] = useState(task);
 
-	const [isEdit, setIsEdit] = useState(false);
+	const [isEdit, setIsEdit] = useState(true);
 	
-	return isEdit ? (
-		<>
-			<textarea 
-			className="editTask saveTask" 
-			onChange={(event)=>{
-				setTempTask(event.target.value);
-			}}
-			value={tempTask}
-			></textarea>
-			<button 
-				className="save" 
-				type="button"
-				onClick={()=>{
-					if(tempTask!==""){
-						onEdit(tempTask);
-						setIsEdit(false);
-					}
-				}}
-			> Save </button>
-		</>
-	) : (
+	return isEdit ?  (
 		<>
 			<li className="list">{tempTask}</li>
 			<button 
 				className="edit" 
 				type="button"
 				onClick={()=>{
-					setIsEdit(true);
+					setIsEdit(false);
 				}}
 			> Edit </button>
 
 			<button 
 				className="delete" 
 				type="button"
-				onClick={()=>{
-					onDelete();
-				}}
+				onClick={onDelete}
 			> Delete </button>
 		</>
-	);
+	) : (
+		<>
+			<textarea 
+			className="editTask" 
+			value={tempTask}
+			onChange={(event)=>{
+				setTempTask(event.target.value);
+			}}
+			></textarea>
+			<button 
+				className="saveTask" 
+				type="button"
+				onClick={()=>{
+					if(tempTask!==""){
+						onEdit(tempTask);
+						setIsEdit(true);
+					}
+				}}
+			> Save </button>
+		</>
+	)
 }
 
 function App() 
@@ -80,16 +78,17 @@ function App()
 
 	return (
 	<div id="main">
-		<textarea id="task" 
+		<textarea 
+			id="task" 
+			value={task}
 			onChange={(event)=>{
 				setTask(event.target.value);
 			}}
-			value={task}
 		></textarea>
 		<button id="btn" 
 			type="button"
 			onClick={()=>{
-				if(task !== ""){
+				if(todoList!=="" && task !== ""){			// new change todoList!==""
 					setTodoList([...todoList,task]);	///
 					setTask("");
 				}
@@ -99,15 +98,19 @@ function App()
 		</button>
 
 		<h3>Todo Lists</h3>
+
 		<ul>
 			{todoList.map((task,i)=>{
 				return (
 					// <ListItem onEdit={onEdit} onDelete={onDelete}> {task} </ListItem>
-					<ListItem onEdit={(newTask)=>{
-						onEdit(newTask,i);
-					}} 
-					onDelete={()=>onDelete(i)}
-					 task={task}/>
+					<ListItem 
+						i={i}
+						key={task}
+						onEdit={(newTask)=>{
+							onEdit(newTask,i);
+						}} 
+						onDelete={()=>onDelete(i)}
+						task={task}/>
 				)
 			})}
 		</ul>
